@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Kanit', sans-serif;
+}
+
+* {
+  font-family: 'Kanit', sans-serif;
+}
