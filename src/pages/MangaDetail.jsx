@@ -74,7 +74,7 @@ export default function MangaDetail() {
     <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link to="/" className="hover:text-orange-500 transition-colors">หน้าแรก</Link>
+        <Link to="/" className="hover:text-orange-500 transition-colors">ไม่บอก</Link>
         <ChevronRight className="w-4 h-4" />
         <span className="text-gray-600 dark:text-gray-300 truncate">{manga.title}</span>
       </div>
