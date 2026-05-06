@@ -9,11 +9,6 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      '/api/mangadex': {
-        target: 'https://api.mangadex.org',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/mangadex/, ''),
-      },
       '/api/cover': {
         target: 'https://uploads.mangadex.org',
         changeOrigin: true,
