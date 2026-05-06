@@ -100,12 +100,13 @@ export async function fetchChaptersByLang(mangaId, lang) {
 }
 
 export async function fetchChapterPages(chapterId) {
-  const res = await fetch(`${BASE}/at-home/server/${chapterId}`)
+  // Call directly from browser — MangaDex uses requester's IP to assign nearest CDN node
+  const res = await fetch(`https://api.mangadex.org/at-home/server/${chapterId}`)
   const data = await res.json()
-  const { chapter } = data
+  const { baseUrl, chapter } = data
   const files = chapter.dataSaver?.length ? chapter.dataSaver : chapter.data
   const folder = chapter.dataSaver?.length ? 'data-saver' : 'data'
-  return files.map(f => `/api/cover/${folder}/${chapter.hash}/${f}`)
+  return files.map(f => `${baseUrl}/${folder}/${chapter.hash}/${f}`)
 }
 
 export async function fetchDoujinshi(limit = 24, offset = 0) {
