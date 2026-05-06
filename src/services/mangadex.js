@@ -1,7 +1,9 @@
 const BASE = import.meta.env.DEV ? 'https://api.mangadex.org' : '/api/mangadex'
 
+const imgProxy = (url) => `/api/image?url=${encodeURIComponent(url)}`
+
 export const getCoverUrl = (mangaId, fileName) =>
-  `/api/cover/covers/${mangaId}/${fileName}.512.jpg`
+  imgProxy(`https://uploads.mangadex.org/covers/${mangaId}/${fileName}.512.jpg`)
 
 // Report only needed for at-home CDN nodes (non-mangadex.org) — skip for proxied URLs
 export function reportImageLoad(url, success, duration = 0) {
@@ -102,11 +104,10 @@ export async function fetchChaptersByLang(mangaId, lang) {
 export async function fetchChapterPages(chapterId) {
   const res = await fetch(`${BASE}/at-home/server/${chapterId}`)
   const data = await res.json()
-  const { chapter } = data
+  const { baseUrl, chapter } = data
   const files = chapter.dataSaver?.length ? chapter.dataSaver : chapter.data
   const folder = chapter.dataSaver?.length ? 'data-saver' : 'data'
-  // Route through /api/cover proxy → uploads.mangadex.org (required by MangaDex policy)
-  return files.map(f => `/api/cover/${folder}/${chapter.hash}/${f}`)
+  return files.map(f => imgProxy(`${baseUrl}/${folder}/${chapter.hash}/${f}`))
 }
 
 export async function fetchDoujinshi(limit = 24, offset = 0) {
