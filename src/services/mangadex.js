@@ -1,4 +1,4 @@
-const BASE = 'https://api.mangadex.org'
+const BASE = import.meta.env.DEV ? 'https://api.mangadex.org' : '/api/mangadex'
 
 export const getCoverUrl = (mangaId, fileName) =>
   `https://uploads.mangadex.org/covers/${mangaId}/${fileName}.512.jpg`
