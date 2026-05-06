@@ -100,7 +100,8 @@ export async function fetchChaptersByLang(mangaId, lang) {
 }
 
 export async function fetchChapterPages(chapterId) {
-  const res = await fetch(`${BASE}/at-home/server/${chapterId}`)
+  // Call directly (not via proxy) so MangaDex assigns CDN node based on user's real IP
+  const res = await fetch(`https://api.mangadex.org/at-home/server/${chapterId}`)
   const data = await res.json()
   const { baseUrl, chapter } = data
   const files = chapter.dataSaver?.length ? chapter.dataSaver : chapter.data
