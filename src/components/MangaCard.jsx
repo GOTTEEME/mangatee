@@ -1,14 +1,11 @@
 import { Link } from 'react-router-dom'
-import useHoverSound from '../hooks/useHoverSound'
 
 const typeLabel = { manga: 'มังงะ', manhwa: 'มังฮวา', manhua: 'มังฮวา' }
 const typeBg = { manga: 'bg-purple-600', manhwa: 'bg-sky-600', manhua: 'bg-green-600' }
 
 export default function MangaCard({ manga }) {
-  const playHover = useHoverSound()
-
   return (
-    <Link to={`/manga/${manga.id}`} className="group block" onMouseEnter={playHover}>
+    <Link to={`/manga/${manga.id}`} className="group block">
       <div className="relative overflow-hidden rounded-xl bg-gray-200 dark:bg-gray-800 aspect-[2/3]">
         {manga.cover ? (
           <img
@@ -36,7 +33,7 @@ export default function MangaCard({ manga }) {
         {/* Status badge */}
         <div className="absolute top-8 left-2">
           <span className={`text-xs font-semibold px-2 py-0.5 rounded-full text-white ${manga.status === 'completed' ? 'bg-blue-600' : 'bg-orange-500'}`}>
-            {manga.status === 'completed' ? 'จบแล้ว' : 'กำลังออก'}
+            {manga.status === 'completed' ? 'จบแล้ว' : 'ยังไม่จบ'}
           </span>
         </div>
 

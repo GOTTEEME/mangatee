@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Clock, TrendingUp, Flame, Sparkles } from 'lucide-react'
+import { Clock, TrendingUp, Flame, Sparkles, ChevronRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import HeroBanner from '../components/HeroBanner'
 import MangaCard from '../components/MangaCard'
 import SkeletonCard from '../components/SkeletonCard'
@@ -77,6 +78,9 @@ export default function Home() {
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">โดจิน</h2>
             <span className="text-xs font-bold px-2 py-0.5 bg-red-500 text-white rounded-full">18+</span>
           </div>
+          <Link to="/doujin" className="flex items-center gap-1 text-sm text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors">
+            ดูทั้งหมด <ChevronRight className="w-4 h-4" />
+          </Link>
         </div>
         {doujinLoading ? <SkeletonGrid count={24} /> : (
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4">

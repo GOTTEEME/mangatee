@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Search, Menu, X, BookOpen, Home, TrendingUp, Grid3X3, ChevronDown, Star, Sun, Moon } from 'lucide-react'
+import { Search, Menu, X, Home, TrendingUp, Grid3X3, ChevronDown, Sun, Moon, Flame } from 'lucide-react'
+import logoImg from '../assets/MochiManga.png'
 import { genres } from '../data/mockData'
 import { searchManga } from '../services/mangadex'
 import { useTheme } from '../context/ThemeContext'
@@ -62,8 +63,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
-            <BookOpen className="w-9 h-9 text-orange-500" />
-            <span className="text-2xl font-bold text-gray-900 dark:text-white">Manga<span className="text-orange-500">Tee</span></span>
+            <img src={logoImg} alt="MochiManga" className="w-20 h-20" />
+            <span className="text-2xl font-bold text-gray-900 dark:text-white">Mochi<span className="text-orange-500">Manga</span></span>
           </Link>
 
           {/* Desktop Nav */}
@@ -73,6 +74,9 @@ export default function Navbar() {
             </Link>
             <Link to="/popular" className="flex items-center gap-2 px-4 py-2.5 text-base text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
               <TrendingUp className="w-5 h-5" /> ยอดนิยม
+            </Link>
+            <Link to="/doujin" className="flex items-center gap-2 px-4 py-2.5 text-base text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+              <Flame className="w-5 h-5" /> โดจิน <span className="text-xs font-bold px-1.5 py-0.5 bg-red-500 text-white rounded-full leading-none">18+</span>
             </Link>
             <div className="relative">
               <button
@@ -177,6 +181,9 @@ export default function Navbar() {
           </Link>
           <Link to="/popular" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
             <TrendingUp className="w-4 h-4" /> ยอดนิยม
+          </Link>
+          <Link to="/doujin" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+            <Flame className="w-4 h-4" /> โดจิน <span className="text-xs font-bold px-1.5 py-0.5 bg-red-500 text-white rounded-full leading-none">18+</span>
           </Link>
           <div className="px-3 py-2">
             <p className="text-xs text-gray-400 mb-2 uppercase tracking-wider">หมวดหมู่</p>

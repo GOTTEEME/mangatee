@@ -10,6 +10,7 @@ import Popular from './pages/Popular'
 import Search from './pages/Search'
 import Latest from './pages/Latest'
 import Genre from './pages/Genre'
+import Doujin from './pages/Doujin'
 
 function Layout() {
   const location = useLocation()
@@ -29,6 +30,7 @@ function Layout() {
           <Route path="/genre/:tagId" element={<Genre />} />
           <Route path="/latest" element={<Latest />} />
           <Route path="/all" element={<Popular />} />
+          <Route path="/doujin" element={<Doujin />} />
         </Routes>
       </main>
       {!isReader && <Footer />}
