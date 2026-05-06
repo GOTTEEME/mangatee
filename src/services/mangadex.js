@@ -3,9 +3,9 @@ const BASE = import.meta.env.DEV ? 'https://api.mangadex.org' : '/api/mangadex'
 export const getCoverUrl = (mangaId, fileName) =>
   `/api/cover/covers/${mangaId}/${fileName}.512.jpg`
 
-// Fire-and-forget report to MangaDex at-home monitoring network
+// Report only needed for at-home CDN nodes (non-mangadex.org) — skip for proxied URLs
 export function reportImageLoad(url, success, duration = 0) {
-  if (!url || url.includes('mangadex.org')) return
+  if (!url || url.startsWith('/') || url.includes('mangadex.org')) return
   fetch('https://api.mangadex.network/report', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -100,13 +100,13 @@ export async function fetchChaptersByLang(mangaId, lang) {
 }
 
 export async function fetchChapterPages(chapterId) {
-  // Call directly (not via proxy) so MangaDex assigns CDN node based on user's real IP
-  const res = await fetch(`https://api.mangadex.org/at-home/server/${chapterId}`)
+  const res = await fetch(`${BASE}/at-home/server/${chapterId}`)
   const data = await res.json()
-  const { baseUrl, chapter } = data
+  const { chapter } = data
   const files = chapter.dataSaver?.length ? chapter.dataSaver : chapter.data
   const folder = chapter.dataSaver?.length ? 'data-saver' : 'data'
-  return files.map(f => `${baseUrl}/${folder}/${chapter.hash}/${f}`)
+  // Route through /api/cover proxy → uploads.mangadex.org (required by MangaDex policy)
+  return files.map(f => `/api/cover/${folder}/${chapter.hash}/${f}`)
 }
 
 export async function fetchDoujinshi(limit = 24, offset = 0) {
