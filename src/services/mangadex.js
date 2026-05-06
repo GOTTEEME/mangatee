@@ -1,7 +1,17 @@
-const BASE = import.meta.env.DEV ? 'https://api.mangadex.org' : '/api/mangadex'
+const BASE = '/api/mangadex'
 
 export const getCoverUrl = (mangaId, fileName) =>
-  `https://uploads.mangadex.org/covers/${mangaId}/${fileName}.512.jpg`
+  `/api/cover/covers/${mangaId}/${fileName}.512.jpg`
+
+// Fire-and-forget report to MangaDex at-home monitoring network
+export function reportImageLoad(url, success, duration = 0) {
+  if (!url || url.includes('mangadex.org')) return
+  fetch('https://api.mangadex.network/report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url, success, cached: false, bytes: 0, duration }),
+  }).catch(() => {})
+}
 
 export function normalizeManga(manga) {
   const coverRel = manga.relationships?.find(r => r.type === 'cover_art')

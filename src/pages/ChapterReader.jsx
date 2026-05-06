@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams, Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, List, X, Home } from 'lucide-react'
-import { fetchMangaById, fetchChaptersByLang, fetchChapterPages } from '../services/mangadex'
+import { fetchMangaById, fetchChaptersByLang, fetchChapterPages, reportImageLoad } from '../services/mangadex'
 
 export default function ChapterReader() {
   const { id, chapterId } = useParams()
@@ -15,6 +15,7 @@ export default function ChapterReader() {
   const [loading, setLoading] = useState(true)
   const [showUI, setShowUI] = useState(true)
   const [showChapterList, setShowChapterList] = useState(false)
+  const loadStartRef = useRef({})
 
   useEffect(() => {
     setLoading(true)
@@ -122,6 +123,16 @@ export default function ChapterReader() {
                 style={{ maxWidth: '800px', width: '100%' }}
                 className="block select-none"
                 loading="lazy"
+                onLoadStart={() => { loadStartRef.current[page] = Date.now() }}
+                onLoad={() => {
+                  const duration = Date.now() - (loadStartRef.current[page] ?? Date.now())
+                  reportImageLoad(page, true, duration)
+                  delete loadStartRef.current[page]
+                }}
+                onError={() => {
+                  reportImageLoad(page, false)
+                  delete loadStartRef.current[page]
+                }}
               />
             ))}
           </div>
